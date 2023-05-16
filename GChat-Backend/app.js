@@ -1,4 +1,4 @@
-const functions = require('firebase-functions');
+// const functions = require('firebase-functions');
 const express = require('express')
 const app = express();
 const contactRoutes=require('./routes/contacts');
@@ -7,7 +7,7 @@ var cors = require('cors');
 var admin = require("firebase-admin");
 var serviceAccount = require("./g-chat-b833e-firebase-adminsdk-ggvwm-23593a11df.json");
 const http = require('http').Server(app);
-const port = 4444;
+const port = process.env.PORT || 4444;
 var connectedClients=[];
 app.use(cors());
 app.use(express.json());
@@ -71,12 +71,12 @@ app.get('/', (req, res) => {
 })
 
 
-http.listen(4545, () => {
-  console.log(`Server listening on ${4545}`);
+http.listen(port, () => {
+  console.log(`Server listening on ${port}`);
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
-exports.api = functions.https.onRequest(app);
+// app.listen(port, () => {
+//   console.log(`Example app listening on port ${port}`)
+// })
+// exports.api = functions.https.onRequest(app);
 

@@ -16,7 +16,7 @@ function NavBar(props) {
             <div className='w-[fit-content] h-full flex justify-center items-center gap-4 ml-auto'>
                 <Login></Login>
                 <div className='w-[fit-content] h-full flex justify-center items-center gap-4'>
-                    <User></User>
+                {localStorage.getItem('uid') && <User></User>}
                 </div>
             </div>
 

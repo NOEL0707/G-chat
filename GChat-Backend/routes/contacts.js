@@ -61,15 +61,20 @@ router.post('/addContact', async (req, res) => {
           snapshot = await messagesRef.orderBy('sentAt',"desc").where('from', 'in', [uid,contact.uid]).where('to', 'in', [uid,contact.uid]).get()
           if (snapshot.empty) {
             console.log('No messages.');
+            var obj={...contact,msg:'No msg sent',sentAt:'-'};
+            newResult.push(obj);
+            break;
           }
           else {
             var sorted=snapshot.docs.sort((a, b) => new Date(a.data().sentAt._seconds * 1000 + a.data().sentAt._nanoseconds / 1000000)-
             new Date(b.data().sentAt_seconds * 1000 + b.data().sentAt._nanoseconds / 1000000))
+            var foundmessages=false;
             for (const element of sorted) {
               if(uid==contact.uid){
                 if(element.data().from==element.data().to){
                   var obj={...contact,msg:element.data().msg,sentAt:element.data().sentAt};
                   newResult.push(obj);
+                  foundmessages=true;
                   break;
                 }
               }
@@ -77,9 +82,14 @@ router.post('/addContact', async (req, res) => {
                 if(element.data().from!=element.data().to){
                   var obj={...contact,msg:element.data().msg,sentAt:element.data().sentAt};
                   newResult.push(obj);
+                  foundmessages=true;
                   break;
                 }
               }
+            }
+            if(!foundmessages){
+              var obj={...contact,msg:'No msg sent',sentAt:'-'};
+              newResult.push(obj);
             }
           }
         }

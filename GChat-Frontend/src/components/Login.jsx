@@ -9,41 +9,45 @@ import { serverLink } from "../serverLink.js";
 function Login(){
     const [uid,setUID] = useState('')
     const handleSignin =()=>{
-        signInWithPopup(auth,provider).then((data)=>{
-            console.log(data);
-            setUID(data.user.uid);
-            localStorage.setItem("uid",data.user.uid);
-            localStorage.setItem("displayName",data.user.displayName);
-            localStorage.setItem("email",data.user.email);
-            localStorage.setItem("photoURL",data.user.photoURL);
+      signInWithPopup(auth,provider).then((data)=>{
+        console.log(data);
+        setUID(data.user.uid);
+        localStorage.setItem("uid",data.user.uid);
+        localStorage.setItem("displayName",data.user.displayName);
+        localStorage.setItem("email",data.user.email);
+        localStorage.setItem("photoURL",data.user.photoURL);
 
-            axios.post(`${serverLink}/api/user/addUser`,{
-                'name': data.user.displayName,
-                'email': data.user.email,
-                'photoURL': data.user.photoURL,
-                'uid':data.user.uid
-              },{
-                withCredentials: false,
-                headers: {
-                  Accept: "application/json",
-                  "Content-Type": "application/json",
-                  "Access-Control-Allow-Credentials": true,
-                },
-              })
-            .then(response => {
-              console.log('Response:', response.data);
-            })
-            .catch(error => {
-              console.error('Error:', error);
-            });
-        }).catch((error)=>{
-            console.log(error)
+        axios.post(`${serverLink}/api/user/addUser`,{
+            'name': data.user.displayName,
+            'email': data.user.email,
+            'photoURL': data.user.photoURL,
+            'uid':data.user.uid
+          },{
+            withCredentials: false,
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Credentials": true,
+            },
+          })
+        .then(response => {
+          console.log('Response:', response.data);
+          window.location.reload();
         })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      }).catch((error)=>{
+          console.log(error)
+      })
     }
     const handleSignOut =()=>{
         signOut(auth,provider).then((data)=>{
-            console.log(data);
+            // console.log(data);
             localStorage.removeItem("uid");
+            localStorage.removeItem("displayName");
+            localStorage.removeItem("email");
+            localStorage.removeItem("photoURL");
             window.location.reload();
         })
     }
