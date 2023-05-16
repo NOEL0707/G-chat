@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.scrollable-container {
+    /* Set a fixed height and width for the container */
+    overflow-y: auto;
+  }
+  
+  /* Hide the scrollbar */
+  .scrollable-container::-webkit-scrollbar {
+    width: 0.5em;
+    background-color: transparent;
+  }
+  
+  /* Hide the scrollbar track */
+  .scrollable-container::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  
+  /* Hide the scrollbar thumb */
+  .scrollable-container::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
